@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+//These are my TS definitions
+// Migrate shema :: npx prisma db push
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root@127.0.0.1:3309/devappserver"
+  relationMode = "prisma"
+}
+
+  model User {
+    id        Int    @id @default(autoincrement())
+    firstName String
+    lastName  String
+    addr1     String
+    addr2     String
+    state     String
+    zip       String
+    tanks     Tank[] // User has many tanks
+    createdAt DateTime @default(now())
+    updateAt  DateTime @updatedAt
+  }
+  
+  model Tank {
+    id          Int      @id @default(autoincrement())
+    name        String
+    picId       Int
+    description String
+    size        String
+    measures    Measure[] // Tank has many measures
+    userId      Int      // Foreign key to reference User
+    user        User     @relation(fields: [userId], references: [id])
+    createdAt   DateTime @default(now())
+    updateAt    DateTime @updatedAt
+  }
+  
+  model Measure {
+    id        Int    @id @default(autoincrement())
+    type      String
+    sample    Int
+    tankId    Int    // Foreign key to reference Tank
+    tank      Tank   @relation(fields: [tankId], references: [id])
+    createdAt DateTime @default(now())
+    updateAt  DateTime @updatedAt
+  }
+  
+
+  // pscale connect devappserver initial-setup --port 3309
+  //127.0.0.1:3309
