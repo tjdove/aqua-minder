@@ -18,16 +18,36 @@ export async function getUser(id: number) {
   return rows;
 }
 
-export async function createUser(user: User) {
-  const tank = await prisma.tank.create({
-    User: {
-      name: "Saltwater",
-      picId: 1,
-      description: "Salt water",
-      size: "40 gallon",
-      //measures: {
+interface CreateUserInput {
+  firstName: string;
+  lastName: string;
+  addr1: string;
+  addr2: string;
+  state: string;
+  zip: string;
+  tanks?: {
+    create?: Prisma.TankCreateWithoutUserInput[]; // Assuming you have a TankCreateWithoutUserInput type in your Prisma schema for tank creation.
+  };
+}
 
-    }
+async function createUser(data: CreateUserInput) {
+  try {
+    const user = await prisma.user.create({
+      data: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        addr1: data.addr1,
+        addr2: data.addr2,
+        state: data.state,
+        zip: data.zip,
+        tanks: data.tanks,
+      },
+    });
+    return user;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
 }
 
 // async function main() {

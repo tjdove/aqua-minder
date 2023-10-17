@@ -1,8 +1,9 @@
 import express from "express";
-
+//Import the genereates type from the schema models
+import { User } from "@prisma/client";
 //import { getUser, getUsers, createUser } from "./database.js";
 
-import { getUsers } from "./database";
+import { getUser, getUsers } from "./database";
 
 const app = express();
 app.use(express.json());
@@ -12,12 +13,12 @@ app.get("/api/users", async (req, res) => {
   res.send(users);
 });
 
-// app.get("/api/users/:id", async (req, res) => {
-//   const id = req.params.id;
-//   console.log("/users/:id:  " + id);
-//   const user = await getUser(id);
-//   res.send(user);
-// });
+app.get("/api/users/:id", async (req, res) => {
+  const id = req.params.id;
+  console.log("/users/:id:  " + id);
+  const user = await getUser(id);
+  res.send(user);
+});
 
 // app.post("/api/users", async (req, res) => {
 //   const { first_name, last_name, addr1, addr2, city, state, zip } = req.body;
