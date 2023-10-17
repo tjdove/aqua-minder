@@ -1,4 +1,4 @@
-# Job Tracker Application for finding Tim a Job
+# Track your tanks and their mesuremnts to keep the fish and plants happy & healthy...
 
 - Tracks Users, Jobs, contacts, correspondence, etc.
 - Stack includes:
