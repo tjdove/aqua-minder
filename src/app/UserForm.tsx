@@ -12,10 +12,10 @@ export const UserForm = () => {
       addr1: "",
       addr2: "",
       state: "",
-      zip: "asdf",
+      zip: "",
     },
 
-    validateSchema: Yup.object({
+    validationSchema: Yup.object({
       firstName: Yup.string()
         .max(20, "First name must be 20 characters or less.")
         .required("First Name is required"),
@@ -42,8 +42,17 @@ export const UserForm = () => {
   console.log(formik.errors);
   return (
     <form onSubmit={formik.handleSubmit}>
-      <label className="block pb-2" htmlFor="firstName">
-        First Name:
+      <label
+        className={`block pb-2 ${
+          formik.touched.firstName && formik.errors.firstName
+            ? "text-red-400"
+            : ""
+        }`}
+        htmlFor="firstName"
+      >
+        {formik.touched.firstName && formik.errors.firstName
+          ? formik.errors.firstName
+          : "First Name"}
       </label>
       <input
         type="text"
@@ -53,8 +62,17 @@ export const UserForm = () => {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
       />
-      <label className="block pb-2" htmlFor="lastName">
-        {formik.errors.firstName ? formik.errors.firstName : "First Name"}
+      <label
+        className={`block pb-2 ${
+          formik.touched.lastName && formik.errors.lastName
+            ? "text-red-400"
+            : ""
+        }`}
+        htmlFor="lastName"
+      >
+        {formik.touched.lastName && formik.errors.lastName
+          ? formik.errors.lastName
+          : "Last Name"}
       </label>
       <input
         type="text"
@@ -62,9 +80,17 @@ export const UserForm = () => {
         placeholder="Last name"
         value={formik.values.lastName}
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       />
-      <label className="block pb-2" htmlFor="addr1">
-        Address:
+      <label
+        className={`block pb-2 ${
+          formik.touched.addr1 && formik.errors.addr1 ? "text-red-400" : ""
+        }`}
+        htmlFor="addr1"
+      >
+        {formik.touched.addr1 && formik.errors.addr1
+          ? formik.errors.addr1
+          : "Address"}
       </label>
       <input
         type="text"
@@ -72,6 +98,7 @@ export const UserForm = () => {
         placeholder="Address"
         value={formik.values.addr1}
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       />
       <label className="block pb-2" htmlFor="addr2">
         Address:
@@ -82,9 +109,17 @@ export const UserForm = () => {
         placeholder="Address 2"
         value={formik.values.addr2}
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       />
-      <label className="block pb-2" htmlFor="state">
-        State:
+      <label
+        className={`block pb-2 ${
+          formik.touched.state && formik.errors.state ? "text-red-400" : ""
+        }`}
+        htmlFor="state"
+      >
+        {formik.touched.state && formik.errors.state
+          ? formik.errors.state
+          : "State"}
       </label>
       <input
         type="text"
@@ -92,9 +127,15 @@ export const UserForm = () => {
         placeholder="State"
         value={formik.values.state}
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       />
-      <label className="block pb-2" htmlFor="zip">
-        Zip:
+      <label
+        className={`block pb-2 ${
+          formik.touched.zip && formik.errors.zip ? "text-red-400" : ""
+        }`}
+        htmlFor="zip"
+      >
+        {formik.touched.zip && formik.errors.zip ? formik.errors.zip : "Zip"}
       </label>
       <input
         type="text"
@@ -102,6 +143,7 @@ export const UserForm = () => {
         placeholder="Zip code"
         value={formik.values.zip}
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       />
       <button type="submit">Submit</button>
     </form>
