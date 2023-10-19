@@ -1,54 +1,87 @@
 //Execute: npx tsx ./server/database.ts
 //   - Don't use ts-node
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 export async function getUsers() {
-  const rows = await prisma.user.findMany(); //   query("SELECT * FROM user");
-  return rows;
+  const users = await prisma.user.findMany(); //   query("SELECT * FROM user");
+  return users;
 }
 
-export async function getUser(id: number) {
-  const rows = await prisma.user.findUnique({
+export async function getUser(id: number): Promise<User | null> {
+  const theUser = await prisma.user.findUnique({
     where: {
       id: id,
     },
   });
-  return rows;
+  return theUser;
 }
 
-interface CreateUserInput {
-  firstName: string;
-  lastName: string;
-  addr1: string;
-  addr2: string;
-  state: string;
-  zip: string;
-  tanks?: {
-    create?: Prisma.TankCreateWithoutUserInput[]; // Assuming you have a TankCreateWithoutUserInput type in your Prisma schema for tank creation.
-  };
+export async function updateUser(
+  id: number,
+  data: Prisma.UserUpdateInput
+): Promise<User> {
+  const updatedUser = await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data,
+  });
+  return updatedUser;
 }
 
-async function createUser(data: CreateUserInput) {
+export async function createUser(user: Prisma.UserCreateInput) {
   try {
-    const user = await prisma.user.create({
-      data: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        addr1: data.addr1,
-        addr2: data.addr2,
-        state: data.state,
-        zip: data.zip,
-        tanks: data.tanks,
-      },
+    const createdUer = await prisma.user.create({
+      data: user,
     });
-    return user;
+    return createdUer;
   } catch (error) {
     console.error("Error creating user:", error);
     throw error;
   }
 }
+
+export async function removeUser(id: number): Promise<void> {
+  await prisma.user.delete({
+    where: {
+      id,
+    },
+  });
+}
+
+// interface CreateUserInput {
+//   firstName: string;
+//   lastName: string;
+//   addr1: string;
+//   addr2: string;
+//   state: string;
+//   zip: string;
+//   tanks?: {
+//     create?: Prisma.TankCreateWithoutUserInput[]; // Assuming you have a TankCreateWithoutUserInput type in your Prisma schema for tank creation.
+//   };
+// }
+
+// async function createUser(data: User) {
+//   try {
+//     const user = await prisma.user.create({
+//       data: {
+//         firstName: data.firstName,
+//         lastName: data.lastName,
+//         addr1: data.addr1,
+//         addr2: data.addr2,
+//         state: data.state,
+//         zip: data.zip,
+//         // tanks: data.tanks,
+//       },
+//     });
+//     return user;
+//   } catch (error) {
+//     console.error("Error creating user:", error);
+//     throw error;
+//   }
+// }
 
 // async function main() {
 //   const user = await prisma.user.create({
