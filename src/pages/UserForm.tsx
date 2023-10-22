@@ -1,4 +1,3 @@
-"use client";
 // import React from "react";
 // import { Formik } from "formik";
 import * as Yup from "yup";
@@ -35,11 +34,12 @@ export const UserForm = () => {
     //Submit form
     onSubmit: (values) => {
       console.log(values);
+      //router.push({ pathname: "/success", query: values });
     },
   });
   // console.log("Test!");
 
-  console.log(formik.errors);
+  // console.log(formik.errors);
   return (
     <form onSubmit={formik.handleSubmit}>
       <label
