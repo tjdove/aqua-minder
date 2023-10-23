@@ -6,12 +6,13 @@ import {
 } from "react-router-dom";
 
 //Pages
-import Home from "./pages/Home";
-import About from "./pages/About";
+
 import { UserForm } from "./pages/UserForm";
-import Contact, { contactAction } from "./pages/help/Contact";
+// import Contact, { contactAction } from "./pages/help/Contact";
 import Faq from "./pages/help/Faq";
 import NotFound from "./pages/NotFound";
+import Home from "./pages/Home";
+import About from "./pages/About";
 // import Careers, { careersLoader } from "./pages/careers/Careers";
 // import CareersError from "./pages/careers/CareersError";
 
@@ -30,7 +31,7 @@ const router = createBrowserRouter(
       <Route path="about" element={<About />} />
       <Route path="help" element={<HelpLayout />}>
         <Route path="faq" element={<Faq />} />
-        <Route path="contact" element={<Contact />} action={contactAction} />
+        {/* <Route path="contact" element={<Contact />} action={contactAction} /> */}
       </Route>
 
       <Route path="newuser" element={<UserForm />} />

@@ -55,6 +55,8 @@ app.use((err: any, req: any, res: any, next: any) => {
   res.status(500).send("Something broke!");
 });
 
+//Need to test that the connection is valid!!!
+//TODO
 app.listen(8080, () => console.log("Example app listening on port 8080"));
 
 // Better error handling. Gott Learn this:
