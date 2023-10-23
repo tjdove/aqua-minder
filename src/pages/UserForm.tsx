@@ -78,6 +78,8 @@ export const UserForm = () => {
 
   //After a successful submit, Reset the values.
   //Need to useEffect instead of calling from onSubmit
+  // - Not sure why we would want to do this. seems like if it submitted, we wouldn't want to
+  // - reset the form, but show a new page.
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset();
