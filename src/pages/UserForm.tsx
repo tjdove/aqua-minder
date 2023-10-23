@@ -1,153 +1,242 @@
-// import React from "react";
-// import { Formik } from "formik";
-import * as Yup from "yup";
-import { useFormik } from "formik";
+import { useForm, useFieldArray, FieldErrors } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
+import { useEffect } from "react";
 
-export const UserForm = () => {
-  const formik = useFormik({
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      addr1: "",
-      addr2: "",
-      state: "",
-      zip: "",
-    },
+let renderCount = 0;
 
-    validationSchema: Yup.object({
-      firstName: Yup.string()
-        .max(20, "First name must be 20 characters or less.")
-        .required("First Name is required"),
-      lastName: Yup.string()
-        .max(20, "Last name must be 20 characters or less.")
-        .required("Last Name is required"),
-      addr1: Yup.string()
-        .max(20, "Address must be 20 characters or less.")
-        .required("Address is required"),
-      state: Yup.string()
-        .max(20, "State must be 2 characters or less.")
-        .required("State is required"),
-      zip: Yup.string()
-        .max(20, "Zip must be 10 characters or less.")
-        .required("Zip is required"),
-    }),
-    //Submit form
-    onSubmit: (values) => {
-      console.log(values);
-      //router.push({ pathname: "/success", query: values });
-    },
-  });
-  // console.log("Test!");
-
-  // console.log(formik.errors);
-  return (
-    <form onSubmit={formik.handleSubmit}>
-      <label
-        className={`block pb-2 ${
-          formik.touched.firstName && formik.errors.firstName
-            ? "text-red-400"
-            : ""
-        }`}
-        htmlFor="firstName"
-      >
-        {formik.touched.firstName && formik.errors.firstName
-          ? formik.errors.firstName
-          : "First Name"}
-      </label>
-      <input
-        type="text"
-        name="firstName"
-        placeholder="First name"
-        value={formik.values.firstName}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-      <label
-        className={`block pb-2 ${
-          formik.touched.lastName && formik.errors.lastName
-            ? "text-red-400"
-            : ""
-        }`}
-        htmlFor="lastName"
-      >
-        {formik.touched.lastName && formik.errors.lastName
-          ? formik.errors.lastName
-          : "Last Name"}
-      </label>
-      <input
-        type="text"
-        name="lastName"
-        placeholder="Last name"
-        value={formik.values.lastName}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-      <label
-        className={`block pb-2 ${
-          formik.touched.addr1 && formik.errors.addr1 ? "text-red-400" : ""
-        }`}
-        htmlFor="addr1"
-      >
-        {formik.touched.addr1 && formik.errors.addr1
-          ? formik.errors.addr1
-          : "Address"}
-      </label>
-      <input
-        type="text"
-        name="addr1"
-        placeholder="Address"
-        value={formik.values.addr1}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-      <label className="block pb-2" htmlFor="addr2">
-        Address:
-      </label>
-      <input
-        type="text"
-        name="addr2"
-        placeholder="Address 2"
-        value={formik.values.addr2}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-      <label
-        className={`block pb-2 ${
-          formik.touched.state && formik.errors.state ? "text-red-400" : ""
-        }`}
-        htmlFor="state"
-      >
-        {formik.touched.state && formik.errors.state
-          ? formik.errors.state
-          : "State"}
-      </label>
-      <input
-        type="text"
-        name="state"
-        placeholder="State"
-        value={formik.values.state}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-      <label
-        className={`block pb-2 ${
-          formik.touched.zip && formik.errors.zip ? "text-red-400" : ""
-        }`}
-        htmlFor="zip"
-      >
-        {formik.touched.zip && formik.errors.zip ? formik.errors.zip : "Zip"}
-      </label>
-      <input
-        type="text"
-        name="zip"
-        placeholder="Zip code"
-        value={formik.values.zip}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-      <button type="submit">Submit</button>
-    </form>
-  );
+type FormValues = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  addr1: string;
+  addr2: string;
+  state: string;
+  zip: string;
+  social: {
+    twitter: string;
+    facebook: string;
+  };
+  phoneNumbers: string[];
+  phNumbers: {
+    number: string;
+  }[];
 };
 
-// export default UserForm;
+export const UserForm = () => {
+  const form = useForm<FormValues>({
+    defaultValues: async () => {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/users/1"
+      );
+      const data = await response.json();
+      return {
+        firstName: data.name,
+        lastName: data.name,
+        email: data.email,
+        addr1: data.address.street,
+        addr2: data.address.suite,
+        state: data.address.state,
+        zip: data.address.zip,
+        social: {
+          twitter: "",
+          facebook: "",
+        },
+        phoneNumbers: ["", ""],
+        phNumbers: [{ number: "" }],
+      };
+    },
+  });
+
+  //Controls for the form
+  const { register, control, handleSubmit, formState, reset } = form;
+  //States of the form
+  const {
+    errors,
+    isDirty,
+    isValid,
+    isSubmitting,
+    isSubmitted,
+    isSubmitSuccessful,
+    submitCount,
+  } = formState;
+
+  console.log({ isSubmitting, isSubmitted, isSubmitSuccessful, submitCount });
+
+  const { fields, append, remove } = useFieldArray({
+    name: "phNumbers",
+    control,
+  });
+
+  const onSubmit = (data: FormValues) => {
+    console.log("Form Submitted: ", data);
+  };
+
+  //Submit errors
+  const onError = (errors: FieldErrors<FormValues>) => {
+    console.log("Form Submitted:errors: ", errors);
+  };
+
+  //After a successful submit, Reset the values.
+  //Need to useEffect instead of calling from onSubmit
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
+
+  //Testing reload
+  renderCount++;
+
+  return (
+    <div>
+      <h1>User Form: ({renderCount / 2})</h1>
+      <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
+        <div>
+          <label htmlFor="firstName">First Name:</label>
+          <input
+            type="text"
+            id="firstName"
+            {...register("firstName", { required: "First Name is required" })}
+          />
+          <p className="error">{errors.firstName?.message}</p>
+        </div>
+
+        <div>
+          <label htmlFor="lastName">Last Name:</label>
+          <input
+            type="text"
+            id="lastName"
+            {...register("lastName", { required: "Last Name is required" })}
+          />
+          <p>{errors.lastName?.message}</p>
+        </div>
+
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="text"
+            id="email"
+            {...register("email", {
+              pattern: {
+                value:
+                  /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/,
+                message: "Invalid email format",
+              },
+              validate: {
+                notAdmin: (fieldValue) => {
+                  return (
+                    fieldValue !== "admin@example.com" ||
+                    "Enter a different email addrress"
+                  );
+                },
+                notBLackListed: (fieldValue) => {
+                  return (
+                    !fieldValue.endsWith("baddomain") ||
+                    "This domain is not supported"
+                  );
+                },
+              },
+            })}
+          />
+          <p>{errors.email?.message}</p>
+        </div>
+
+        <div>
+          <label htmlFor="addr1">Address Line 1:</label>
+          <input
+            type="text"
+            id="addr1"
+            {...register("addr1", { required: "Address is required" })}
+          />
+          <p>{errors.addr1?.message}</p>
+        </div>
+
+        <div>
+          <label htmlFor="addr2">Address Line 2:</label>
+          <input type="text" id="addr2" {...register("addr2")} />
+          <p></p>
+        </div>
+
+        <div>
+          <label htmlFor="state">State:</label>
+          <input
+            type="text"
+            id="state"
+            {...register("state", { required: "State is required" })}
+          />
+          <p>{errors.state?.message}</p>
+        </div>
+
+        <div>
+          <label htmlFor="zip">Zip Code:</label>
+          <input
+            type="text"
+            id="zip"
+            {...register("zip", { required: "Zip is required" })}
+          />
+          <p>{errors.zip?.message}</p>
+        </div>
+
+        <div>
+          <label htmlFor="twitter">Twitter:</label>
+          <input type="text" id="twitter" {...register("social.twitter")} />
+        </div>
+
+        <div>
+          <label htmlFor="facebook">Twitter:</label>
+          <input type="text" id="facebook" {...register("social.facebook")} />
+        </div>
+
+        <div>
+          <label htmlFor="primary-phone">Primary Phone:</label>
+          <input
+            type="text"
+            id="primary-phone"
+            {...register("phoneNumbers.0")}
+          />
+        </div>
+        <div>
+          <label htmlFor="secondary-phone">Secondary Phone:</label>
+          <input
+            type="text"
+            id="secondary-phone"
+            {...register("phoneNumbers.1")}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="">List of Phone numbers:</label>
+        </div>
+        <div>
+          {fields.map((field, index) => {
+            return (
+              <div className="form-control" key={field.id}>
+                <input
+                  type="text"
+                  {...register(`phNumbers.${index}.number` as const)}
+                />
+                {index > 0 && (
+                  <button type="button" onClick={() => remove(index)}>
+                    Remove
+                  </button>
+                )}
+              </div>
+            );
+          })}
+          <button type="button" onClick={() => append({ number: "" })}>
+            Add Phone Number
+          </button>
+        </div>
+        {/* Disable the submit button if nothing has changed from initial vlaues 
+        or if an fields are in an invalidated form. */}
+        <button type="submit" disabled={!isDirty || !isValid || isSubmitting}>
+          Submit
+        </button>
+        <button type="button" onClick={() => reset()}>
+          Reset
+        </button>
+      </form>
+      <DevTool control={control} />
+    </div>
+  );
+};

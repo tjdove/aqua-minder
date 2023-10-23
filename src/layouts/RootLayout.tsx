@@ -9,8 +9,9 @@ export default function RootLayout() {
           <h1>Aqua-Minder</h1>
           <NavLink to="/">Home</NavLink>
           <NavLink to="about">About</NavLink>
+          <NavLink to="newuser">New User</NavLink>
           {/* <NavLink to="careers">Careers</NavLink> */}
-          {/* <NavLink to="help">Help</NavLink> */}
+          <NavLink to="help">Help</NavLink>
         </nav>
         <Breadcrumbs />
       </header>
