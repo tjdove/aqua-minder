@@ -14,6 +14,7 @@ datasource db {
 }
 //  url      = "mysql://root:whiteTable1@localhost:3309/aqua_minder"
   model User {
+    @@map("am_user")
     id        Int    @id @default(autoincrement())
     firstName String
     lastName  String
@@ -27,6 +28,7 @@ datasource db {
   }
   
   model Tank {
+    @@map("am_tank")
     id          Int      @id @default(autoincrement())
     name        String
     picId       Int
@@ -40,6 +42,7 @@ datasource db {
   }
   
   model Measure {
+    @@map("am_measure")
     id        Int    @id @default(autoincrement())
     type      String
     sample    Int

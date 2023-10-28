@@ -16,9 +16,15 @@ export async function testConnection() {
     throw new Error();
   }
 }
-
+//getUsers: Nested 3 layers
 export async function getUsers() {
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({
+    include: {
+      tanks: {
+        include: { measures: true },
+      },
+    },
+  });
   return users;
 }
 
@@ -27,9 +33,28 @@ export async function getUser(id: number): Promise<User | null> {
     where: {
       id: id,
     },
+    include: {
+      tanks: true,
+    },
   });
   return theUser;
 }
+
+// export async function getUserAuth(
+//   username: string,
+//   password: string
+// ): Promise<User | null> {
+//   const theUser = await prisma.user.findUnique({
+//     where: {
+//       username: username,
+//       password: password,
+//     },
+//     include: {
+//       roles: true,
+//     },
+//   });
+//   return theUser;
+// }
 
 export async function updateUser(
   id: number,

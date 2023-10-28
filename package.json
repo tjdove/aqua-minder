@@ -4,12 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "insertData": "node ./server/insertTestData.js",
-    "startAPI": "npx tsx ./server/app.ts",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "insertData": "node ./server/insertTestData.js",
+    "startAPI": "npx tsx ./server/app.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.4.2",

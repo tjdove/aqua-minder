@@ -1,62 +1,26 @@
 import express from "express";
 //Import the genereates type from the schema models
-import { User } from "@prisma/client";
-//import { getUser, getUsers, createUser } from "./database.js";
+//import { User } from "@prisma/client";
+import { userRouter } from "./routes/users";
+import { testConnection } from "./database";
 
-import {
-  getUser,
-  getUsers,
-  createUser,
-  removeUser,
-  updateUser,
-} from "./database";
-
+console.log("APP:Test1");
 const app = express();
 app.use(express.json());
 
-// Get All
-app.get("/api/users", async (req, res) => {
-  const users = await getUsers();
-  res.send(users);
-});
+//Need to test that the connection is valid:
+try {
+  //Ask Prisma to test our connection
+  testConnection();
+  console.log("Connection Test Succeeded");
+} catch (error) {
+  console.error("testConnection failed: " + error);
+  process.exit();
+}
 
-// Get one by ID
-app.get("/api/users/:id", async (req, res) => {
-  const id: number = Number(req.params.id);
-  console.log("/users/:id:  " + id);
-  const user = await getUser(id);
-  res.send(user);
-});
+//Tell the main app to add the routes for the UsersAPI calls
+app.use("/api/users", userRouter);
 
-// Create
-app.post("/api/user", async (req, res) => {
-  const user = req.body;
-  const createdUser = await createUser(user);
-  res.status(201).json(createdUser);
-});
-
-// Update
-app.put("/api/users/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
-  const data = req.body;
-  const updatedUser = await updateUser(id, data);
-  res.status(200).json(updatedUser);
-});
-
-// Delete
-app.delete("/api/users/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
-  await removeUser(id);
-  res.status(204).send();
-});
-
-app.use((err: any, req: any, res: any, next: any) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
-
-//Need to test that the connection is valid!!!
-//TODO
 app.listen(8080, () => console.log("Example app listening on port 8080"));
 
 // Better error handling. Gott Learn this:
@@ -78,3 +42,8 @@ app.listen(8080, () => console.log("Example app listening on port 8080"));
 //     console.log('An unexpected error occurred while trying to remove the User record.');
 //   }
 // }
+
+// app.use((err: any, req: any, res: any, next: any) => {
+//   console.error("Error:" + err.stack);
+//   res.status(500).send("Something broke!");
+// });
