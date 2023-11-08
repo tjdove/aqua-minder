@@ -1,13 +1,16 @@
-# Track your tanks and their mesurements to keep the fish and plants happy & healthy...
+# Track your fish tanks and their mesurements to keep the fish and plants happy & healthy...
 
-- Tracks Users, Jobs, contacts, correspondence, etc.
-- Stack includes:
-   1) React
+- Tracks Users, Tanks, Measurements.
+- Creates graphs to view data over time.
+- Creates warnings for measurement sample levels.
+
+- Build Stack includes:
+   1) ReactJS
    2) TypeScript
-   3) Drizzle - ORM
+   3) Prisma - ORM
    4) Tailwind - CSS
-   5) Daisy UI Components
+   5) ExpressJS
    6) MySQL/PlanetScale
-   7) Axios
-   8) Express
-   9) Test
+   7) Axios possibly
+   8) 
+   9) Incorporating the Firebase-Auth React app.

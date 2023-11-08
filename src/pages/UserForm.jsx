@@ -1,51 +1,36 @@
-import { useForm, useFieldArray, FieldErrors } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { useEffect } from "react";
 
 let renderCount = 0;
 
-type FormValues = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  addr1: string;
-  addr2: string;
-  state: string;
-  zip: string;
-  social: {
-    twitter: string;
-    facebook: string;
-  };
-  phoneNumbers: string[];
-  phNumbers: {
-    number: string;
-  }[];
-};
-
 export const UserForm = () => {
-  const form = useForm<FormValues>({
-    defaultValues: async () => {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/users/1"
-      );
-      const data = await response.json();
-      return {
-        firstName: data.name,
-        lastName: data.name,
-        email: data.email,
-        addr1: data.address.street,
-        addr2: data.address.suite,
-        state: data.address.state,
-        zip: data.address.zip,
-        social: {
-          twitter: "",
-          facebook: "",
-        },
-        phoneNumbers: ["", ""],
-        phNumbers: [{ number: "" }],
-      };
-    },
-  });
+  const form =
+    useForm <
+    FormValues >
+    {
+      defaultValues: async () => {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/users/1"
+        );
+        const data = await response.json();
+        return {
+          firstName: data.name,
+          lastName: data.name,
+          email: data.email,
+          addr1: data.address.street,
+          addr2: data.address.suite,
+          state: data.address.state,
+          zip: data.address.zip,
+          social: {
+            twitter: "",
+            facebook: "",
+          },
+          phoneNumbers: ["", ""],
+          phNumbers: [{ number: "" }],
+        };
+      },
+    };
 
   //Controls for the form
   const { register, control, handleSubmit, formState, reset } = form;
@@ -67,12 +52,12 @@ export const UserForm = () => {
     control,
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = (data) => {
     console.log("Form Submitted: ", data);
   };
 
   //Submit errors
-  const onError = (errors: FieldErrors<FormValues>) => {
+  const onError = (errors) => {
     console.log("Form Submitted:errors: ", errors);
   };
 
@@ -213,10 +198,7 @@ export const UserForm = () => {
           {fields.map((field, index) => {
             return (
               <div className="form-control" key={field.id}>
-                <input
-                  type="text"
-                  {...register(`phNumbers.${index}.number` as const)}
-                />
+                <input type="text" {...register(`phNumbers.${index}.number`)} />
                 {index > 0 && (
                   <button type="button" onClick={() => remove(index)}>
                     Remove

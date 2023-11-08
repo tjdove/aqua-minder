@@ -40,6 +40,20 @@ export async function getUser(id: number): Promise<User | null> {
   return theUser;
 }
 
+export async function getUserByEmail(email: string): Promise<User | null> {
+  const theUser = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+    include: {
+      tanks: {
+        include: { measures: true },
+      },
+    },
+  });
+  return theUser;
+}
+
 // export async function getUserAuth(
 //   username: string,
 //   password: string

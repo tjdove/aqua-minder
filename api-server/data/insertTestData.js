@@ -5,6 +5,7 @@ async function main() {
   // Insert Users
   const user1 = await prisma.user.create({
     data: {
+      email: "mabese4097@rdluxe.com",
       firstName: "Jack",
       lastName: "Done",
       addr1: "123 Main St",
@@ -16,6 +17,7 @@ async function main() {
 
   const user2 = await prisma.user.create({
     data: {
+      email: "mabese40971@rdluxe.com",
       firstName: "Jill",
       lastName: "Undone",
       addr1: "456 Elm St",

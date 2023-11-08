@@ -1,6 +1,7 @@
 -- Create a table for User
 CREATE TABLE User (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
     firstName VARCHAR(255) NOT NULL,
     lastName VARCHAR(255) NOT NULL,
     addr1 VARCHAR(255) NOT NULL,

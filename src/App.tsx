@@ -1,3 +1,4 @@
+import React from "react";
 import {
   createBrowserRouter,
   Route,
@@ -11,14 +12,9 @@ import { UserForm } from "./pages/UserForm";
 // import Contact, { contactAction } from "./pages/help/Contact";
 import Faq from "./pages/help/Faq";
 import NotFound from "./pages/NotFound";
-import Home from "./pages/Home";
 import About from "./pages/About";
-// import Careers, { careersLoader } from "./pages/careers/Careers";
-// import CareersError from "./pages/careers/CareersError";
+import MainDisplay, { mainDisplayLoader } from "./pages/MainDisplay";
 
-// import CareerDetails, {
-//   careerDetailsLoader,
-// } from "./pages/careers/CareerDetails";
 //Layouts
 import RootLayout from "./layouts/RootLayout";
 import HelpLayout from "./layouts/HelpLayout";
@@ -27,7 +23,7 @@ import HelpLayout from "./layouts/HelpLayout";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
-      <Route index element={<Home />} />
+      <Route index element={<MainDisplay />} loader={mainDisplayLoader} />
       <Route path="about" element={<About />} />
       <Route path="help" element={<HelpLayout />}>
         <Route path="faq" element={<Faq />} />
