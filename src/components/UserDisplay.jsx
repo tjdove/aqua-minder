@@ -1,16 +1,14 @@
-import { User } from "@prisma/client";
-
-export default function UserDisplay(user) {
+export default function UserDisplay(thisUser) {
   return (
     <li>
       <div>
-        User:{user.firstName} {user.lastName}
+        User:{thisUser.id}:{thisUser.lastName} {thisUser.lastName}
       </div>
-      <div>{user.email}</div>
+      <div>Email:{thisUser.email}</div>
       <div>
-        {user.addr1} {user.addr2}
-        {user.state} {user.zip}
+        Address: {thisUser.addr1} {thisUser.addr2}
+        {thisUser.state} {thisUser.zip}
       </div>
     </li>
   );
-} // <li key={user.id}>{user.name}</li>
+}

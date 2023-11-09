@@ -5,32 +5,23 @@ import { useEffect } from "react";
 let renderCount = 0;
 
 export const UserForm = () => {
-  const form =
-    useForm <
-    FormValues >
-    {
-      defaultValues: async () => {
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users/1"
-        );
-        const data = await response.json();
-        return {
-          firstName: data.name,
-          lastName: data.name,
-          email: data.email,
-          addr1: data.address.street,
-          addr2: data.address.suite,
-          state: data.address.state,
-          zip: data.address.zip,
-          social: {
-            twitter: "",
-            facebook: "",
-          },
-          phoneNumbers: ["", ""],
-          phNumbers: [{ number: "" }],
-        };
-      },
-    };
+  const form = useForm({
+    defaultValues: async () => {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/users/1"
+      );
+      const data = await response.json();
+      return {
+        firstName: data.name,
+        lastName: data.name,
+        email: data.email,
+        addr1: data.address.street,
+        addr2: data.address.suite,
+        state: data.address.state,
+        zip: data.address.zip,
+      };
+    },
+  });
 
   //Controls for the form
   const { register, control, handleSubmit, formState, reset } = form;

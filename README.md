@@ -5,8 +5,8 @@
 - Creates warnings for measurement sample levels.
 
 - Build Stack includes:
-   1) ReactJS
-   2) TypeScript
+   1) Vite
+   2) ReactJS
    3) Prisma - ORM
    4) Tailwind - CSS
    5) ExpressJS

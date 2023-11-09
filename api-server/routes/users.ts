@@ -13,9 +13,10 @@ import {
 
 // Get All
 userRouter.get("/", async (req, res) => {
+  console.log("Get all Users called");
   const users = await getUsers();
   res.send(users);
-  // res.status(201).json(users);
+  //res.status(201).json(users);
 });
 
 // Create
@@ -28,7 +29,7 @@ userRouter.post("/", async (req, res) => {
 // Get one by ID
 userRouter.get("/:id", async (req, res) => {
   const id: number = Number(req.params.id);
-  console.log("/users/:id:  " + id);
+  console.log("/:id:  " + id);
   const user = await getUser(id);
   res.send(user);
 });
