@@ -1,9 +1,7 @@
 export default function MeasureDisplay(measure) {
   return (
-    <li>
-      <div>
-        Measure:{measure.type} {measure.sample}
-      </div>
-    </li>
+    <div className="px-5">
+      Measure:{measure.type} {measure.sample}
+    </div>
   );
 }

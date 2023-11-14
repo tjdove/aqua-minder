@@ -30,10 +30,29 @@ async function main() {
   // Insert Tanks for each User
   const tank1 = await prisma.tank.create({
     data: {
-      name: "Aquarium A",
+      name: "Bedroom Planted Tank",
       picId: 1,
       description: "Freshwater aquarium",
-      size: "Medium",
+      size: "10 Gallon",
+      userId: user1.id,
+    },
+  });
+  const tank3 = await prisma.tank.create({
+    data: {
+      name: "Bedroom Saltwater Tank",
+      picId: 3,
+      description: "Freshwater aquarium",
+      size: "40 Gallon",
+      userId: user1.id,
+    },
+  });
+
+  const tank4 = await prisma.tank.create({
+    data: {
+      name: "Hallway Planted Tank",
+      picId: 4,
+      description: "Freshwater aquarium",
+      size: "40 Gallon",
       userId: user1.id,
     },
   });

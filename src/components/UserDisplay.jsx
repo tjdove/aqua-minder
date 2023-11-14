@@ -1,6 +1,6 @@
 export default function UserDisplay(thisUser) {
   return (
-    <li>
+    <div>
       <div>
         User:{thisUser.id}:{thisUser.lastName} {thisUser.lastName}
       </div>
@@ -9,6 +9,6 @@ export default function UserDisplay(thisUser) {
         Address: {thisUser.addr1} {thisUser.addr2}
         {thisUser.state} {thisUser.zip}
       </div>
-    </li>
+    </div>
   );
 }

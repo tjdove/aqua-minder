@@ -1,6 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import UserDisplay from "./UserDisplay";
 import TankDisplay from "./TankDisplay";
+import MeasureDisplay from "./MeasureDisplay";
 
 export default function MainDisplay() {
   //const [users, setUsers] = useState([]);
@@ -12,25 +13,23 @@ export default function MainDisplay() {
   return (
     <div className="">
       <h1>Management:</h1>
-      <ul>
+      <div>
         <UserDisplay {...user} key={user.id} />
-      </ul>
+      </div>
       // Show Tanks
       <div className="px-10">
         <h1>Tanks:</h1>
-        <ul>
+        <div>
           {user.tanks.map((tank) => (
-            <TankDisplay {...tank} />
+            <div className="px-5">
+              <TankDisplay {...tank} />
+              <h1>Measures:</h1>
+              {tank.measures.map((measure) => (
+                <MeasureDisplay {...measure} />
+              ))}
+            </div>
           ))}
-        </ul>
-      </div>
-      <div className="px-10">
-        <h1>Measures:</h1>
-        {/*         <ul>
-          {tank.measure.map((measure) => (
-            <MeasureDisplay {...measure} />
-          ))}
-        </ul> */}
+        </div>
       </div>
     </div>
   );

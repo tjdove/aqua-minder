@@ -28,13 +28,15 @@ export async function getUsers() {
   return users;
 }
 
-export async function getUser(id: number): Promise<User | null> {
+export async function getUser(id: number) {
   const theUser = await prisma.user.findUnique({
     where: {
       id: id,
     },
     include: {
-      tanks: true,
+      tanks: {
+        include: { measures: true },
+      },
     },
   });
   return theUser;
